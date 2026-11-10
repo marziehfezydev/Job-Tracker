@@ -2,45 +2,39 @@
 
 A responsive job application tracker built with **React, TypeScript, and Vite**.
 
-JobTrack helps you organize your job search, track applications through a Kanban board, manage interviews, monitor your weekly progress, and keep everything in one place.
+JobTrack helps you organize your job search: track applications on a Kanban board, see what you sent each day on a calendar, manage interviews, and follow your weekly progress, all in one place.
 
 ## 🚀 Live Demo
 
 **[View JobTrack Live Demo](https://job-tracker-one-lime.vercel.app/)**
 
-## 📸 Screenshots
+The first launch shows fictional sample data. Use **Settings → Clear all applications** to start with your own.
 
-### Dashboard – Desktop
-
-![JobTrack Dashboard Desktop](./screenshots/dashboard-desktop.png)
-
-### Dashboard – Mobile
-
-![JobTrack Dashboard Mobile](./screenshots/dashboard-mobile.png)
-
-### Applications View
-
-![JobTrack Applications](./screenshots/applications.png)
+<p align="center">
+  <img src="./screenshots/dashboard.png" alt="JobTrack dashboard" width="800">
+</p>
 
 ## ✨ Features
 
-- **Five Pages:** Dashboard, Applications (sortable and filterable table), Interviews (upcoming and past), Companies (grouped by company), and Settings.
-- **Kanban Board:** Manage applications across five statuses: Wishlist, Applied, Interview, Offer, and Rejected. Supports drag and drop or status selection.
-- **Monthly Calendar:** View application and interview activity throughout the month.
-- **Today's Progress:** Track daily applications, application streaks, and weekly progress.
-- **Application Management:** Add, edit, delete, and search applications by company or role.
-- **Local Storage:** Automatically saves application data using `localStorage` (no backend required).
-- **Two Themes:** Switch between Neutral Elegance and Warm Sand.
-- **Data Management:** Export and import application data as JSON, set weekly goals, and clear all data.
-- **Responsive Design:** Optimized for desktop, tablet, and mobile screens.
-- **Accessibility:** Keyboard-accessible interface and controls.
+- **Five pages:** Dashboard, Applications (sortable and filterable table), Interviews (upcoming and past), Companies (grouped by company), and Settings.
+- **Kanban board:** Five statuses: Wishlist, Applied, Interview, Offer, and Rejected. Drag and drop, or change the status with the select on each card.
+- **Monthly calendar:** See the day of every application and interview.
+- **Today's progress:** Did you apply today? Daily streak, weekly count, and a weekly goal.
+- **Upcoming list and weekly chart:** The next interviews and applications sent per week.
+- **Manage applications:** Add, edit, and delete applications. Click an application's title to open its form.
+- **Search:** Filters by company or role while you type. Press Enter to save the search as a label and start a new one.
+- **Local storage:** Data is saved in your browser with `localStorage` (no backend needed).
+- **Two themes:** Neutral Elegance and Warm Sand.
+- **Data management:** Export and import your data as JSON.
+- **Responsive design:** On small screens the sidebar collapses into a menu.
+- **Accessibility:** Keyboard-accessible controls with labels for screen readers.
 
 ## 🛠️ Tech Stack
 
 - React
 - TypeScript
 - Vite
-- CSS
+- CSS (custom properties for theming)
 - Browser Local Storage
 
 ## 💡 TypeScript Highlights
@@ -49,6 +43,7 @@ JobTrack helps you organize your job search, track applications through a Kanban
 - Discriminated union actions with an exhaustive `useReducer` reducer (`src/state/applications.ts`)
 - Generic custom hook `useLocalStorage<T>` with a type guard for stored data
 - Generic typed form setter `set<K extends keyof FormState>(key: K, value: FormState[K])`
+- `Record<SortKey, ...>` comparator map: adding a sort option without a comparator is a compile error
 - Strict type checking with `strict` and `noUncheckedIndexedAccess` enabled
 - No `any` types
 
@@ -57,10 +52,10 @@ JobTrack helps you organize your job search, track applications through a Kanban
 Clone the repository:
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/marziehfezydev/job-tracker.git
 ```
 
-Navigate to the project directory:
+Go to the project folder:
 
 ```bash
 cd job-tracker
@@ -78,7 +73,7 @@ Start the development server:
 npm run dev
 ```
 
-Build for production:
+Build for production (type-checks first):
 
 ```bash
 npm run build
@@ -105,15 +100,12 @@ src/
     ├── Board.tsx
     ├── ApplicationCard.tsx
     ├── ApplicationForm.tsx
+    ├── UpcomingCard.tsx
+    ├── WeeklyChart.tsx
     ├── ApplicationsView.tsx
     ├── InterviewsView.tsx
     ├── CompaniesView.tsx
     └── SettingsView.tsx
-
-screenshots/
-├── dashboard-desktop.png
-├── dashboard-mobile.png
-└── applications.png
 ```
 
 ## 👩‍💻 Author
@@ -121,7 +113,3 @@ screenshots/
 **Marzieh Feyz**
 
 [GitHub](https://github.com/marziehfezydev)
-
----
-
-Built with ❤️ to make the job search process more organized.
