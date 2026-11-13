@@ -92,6 +92,9 @@ export default function App() {
   }
 
   function handleDelete(id: string) {
+    const app = apps.find((a) => a.id === id);
+    if (!app) return;
+    if (!window.confirm(`Delete "${app.role}" at ${app.company}? This cannot be undone.`)) return;
     dispatch({ type: "remove", id });
     setFormTarget(null);
   }
@@ -160,16 +163,16 @@ export default function App() {
               <Calendar apps={apps} today={today} selected={selected} onSelect={setSelected} />
               <TodayCard today={today} stats={stats} onLog={() => setFormTarget("new")} />
             </div>
-            <Board apps={visible} onOpen={setFormTarget} onMove={handleMove} />
+            <Board apps={visible} onOpen={setFormTarget} onMove={handleMove} onDelete={handleDelete} />
             <div className="bottom-row">
               <UpcomingCard apps={apps} today={today} onOpen={setFormTarget} onSeeAll={() => setView("interviews")} />
               <WeeklyChart weeks={weeks} />
             </div>
           </>
         )}
-        {view === "applications" && <ApplicationsView apps={visible} onOpen={setFormTarget} onMove={handleMove} />}
-        {view === "interviews" && <InterviewsView apps={visible} today={today} onOpen={setFormTarget} />}
-        {view === "companies" && <CompaniesView apps={visible} query={query} onOpen={setFormTarget} />}
+        {view === "applications" && <ApplicationsView apps={visible} onOpen={setFormTarget} onMove={handleMove} onDelete={handleDelete} />}
+        {view === "interviews" && <InterviewsView apps={visible} today={today} onOpen={setFormTarget} onDelete={handleDelete} />}
+        {view === "companies" && <CompaniesView apps={visible} query={query} onOpen={setFormTarget} onDelete={handleDelete} />}
         {view === "settings" && (
           <SettingsView
             apps={apps}

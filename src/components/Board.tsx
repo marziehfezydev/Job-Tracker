@@ -6,9 +6,10 @@ interface BoardProps {
   apps: readonly Application[];
   onOpen: (app: Application) => void;
   onMove: (id: string, status: Status) => void;
+  onDelete: (id: string) => void;
 }
 
-export function Board({ apps, onOpen, onMove }: BoardProps) {
+export function Board({ apps, onOpen, onMove, onDelete }: BoardProps) {
   const [dragOver, setDragOver] = useState<Status | null>(null);
 
   function handleDrop(e: DragEvent<HTMLElement>, status: Status) {
@@ -41,7 +42,7 @@ export function Board({ apps, onOpen, onMove }: BoardProps) {
                 <span className="count">{cards.length}</span>
               </header>
               {cards.map((app) => (
-                <ApplicationCard key={app.id} app={app} onOpen={onOpen} onMove={onMove} />
+                <ApplicationCard key={app.id} app={app} onOpen={onOpen} onMove={onMove} onDelete={onDelete} />
               ))}
               {cards.length === 0 && <p className="empty muted small">Drop a card here</p>}
             </section>

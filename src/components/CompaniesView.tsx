@@ -1,11 +1,13 @@
 import { STATUS_LABELS, type Application } from "../types";
 import { formatShort } from "../lib/date";
+import { RowActions } from "./RowActions";
 
 interface CompaniesViewProps {
   apps: readonly Application[];
   /** The active search text, used to pick the right empty message. */
   query: string;
   onOpen: (app: Application) => void;
+  onDelete: (id: string) => void;
 }
 
 interface CompanyGroup {
@@ -25,7 +27,7 @@ function groupByCompany(apps: readonly Application[]): CompanyGroup[] {
   return [...groups.values()].toSorted((a, b) => b.apps.length - a.apps.length || a.name.localeCompare(b.name));
 }
 
-export function CompaniesView({ apps, query, onOpen }: CompaniesViewProps) {
+export function CompaniesView({ apps, query, onOpen, onDelete }: CompaniesViewProps) {
   const groups = groupByCompany(apps);
 
   if (groups.length === 0) {
@@ -51,6 +53,7 @@ export function CompaniesView({ apps, query, onOpen }: CompaniesViewProps) {
                   <div className="muted small">{a.appliedDate ? `Applied ${formatShort(a.appliedDate)}` : "Not applied yet"} · {a.workMode}</div>
                 </div>
                 <span className={`tag tag-${a.status}`}>{STATUS_LABELS[a.status]}</span>
+                <RowActions app={a} onEdit={onOpen} onDelete={onDelete} />
               </li>
             ))}
           </ul>

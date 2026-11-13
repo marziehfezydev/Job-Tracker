@@ -1,11 +1,13 @@
 import { useMemo, useState } from "react";
 import { STATUSES, STATUS_LABELS, type Application, type Status } from "../types";
 import { formatShort } from "../lib/date";
+import { RowActions } from "./RowActions";
 
 interface ApplicationsViewProps {
   apps: readonly Application[];
   onOpen: (app: Application) => void;
   onMove: (id: string, status: Status) => void;
+  onDelete: (id: string) => void;
 }
 
 type SortKey = "applied" | "company" | "role";
@@ -24,7 +26,7 @@ const COMPARATORS: Record<SortKey, (a: Application, b: Application) => number> =
   role: (a, b) => a.role.localeCompare(b.role),
 };
 
-export function ApplicationsView({ apps, onOpen, onMove }: ApplicationsViewProps) {
+export function ApplicationsView({ apps, onOpen, onMove, onDelete }: ApplicationsViewProps) {
   const [filter, setFilter] = useState<StatusFilter>("all");
   const [sort, setSort] = useState<SortKey>("applied");
 
@@ -65,6 +67,7 @@ export function ApplicationsView({ apps, onOpen, onMove }: ApplicationsViewProps
                 <th scope="col">Applied</th>
                 <th scope="col">Interview</th>
                 <th scope="col">Status</th>
+                <th scope="col"><span className="visually-hidden">Actions</span></th>
               </tr>
             </thead>
             <tbody>
@@ -80,6 +83,7 @@ export function ApplicationsView({ apps, onOpen, onMove }: ApplicationsViewProps
                       {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
                     </select>
                   </td>
+                  <td><RowActions app={a} onEdit={onOpen} onDelete={onDelete} /></td>
                 </tr>
               ))}
             </tbody>

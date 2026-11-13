@@ -1,13 +1,15 @@
 import type { Application, ISODate } from "../types";
 import { formatLong, relativeDay } from "../lib/date";
+import { RowActions } from "./RowActions";
 
 interface InterviewsViewProps {
   apps: readonly Application[];
   today: ISODate;
   onOpen: (app: Application) => void;
+  onDelete: (id: string) => void;
 }
 
-export function InterviewsView({ apps, today, onOpen }: InterviewsViewProps) {
+export function InterviewsView({ apps, today, onOpen, onDelete }: InterviewsViewProps) {
   const dated = apps.filter((a): a is Application & { interviewDate: ISODate } => a.interviewDate !== null);
   const upcoming = dated.filter((a) => a.interviewDate >= today).toSorted((a, b) => a.interviewDate.localeCompare(b.interviewDate));
   const past = dated.filter((a) => a.interviewDate < today).toSorted((a, b) => b.interviewDate.localeCompare(a.interviewDate));
@@ -26,6 +28,7 @@ export function InterviewsView({ apps, today, onOpen }: InterviewsViewProps) {
             <div className="muted small">{a.company} · {formatLong(a.interviewDate)}</div>
           </div>
           <span className="tag tag-interview">{relativeDay(today, a.interviewDate)}</span>
+          <RowActions app={a} onEdit={onOpen} onDelete={onDelete} />
         </li>
       ))}
     </ul>
@@ -48,6 +51,7 @@ export function InterviewsView({ apps, today, onOpen }: InterviewsViewProps) {
                   <button type="button" className="card-title" onClick={() => onOpen(a)}>{a.role}</button>
                   <div className="muted small">{a.company} · no interview date yet</div>
                 </div>
+                <RowActions app={a} onEdit={onOpen} onDelete={onDelete} />
               </li>
             ))}
           </ul>
